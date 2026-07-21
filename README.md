@@ -7,7 +7,7 @@ This repository contains the STM32 side of the project. It receives LoRa packets
 
 ## Full Guide
 
-The complete step-by-step how-to guide, covering both the ESP32 and STM32 setup, wiring, and testing, is available here: `LoRa_P2P_Guide.pdf` (or link to wherever you host the PDF).
+The complete step-by-step how-to guide, covering both the ESP32 and STM32 setup, wiring, and testing, is available here: [LoRa_P2P_Communication_with_STM32_and_ESP32.pdf](LoRa_P2P_Communication_with_STM32_and_ESP32.pdf)
 
 ## Hardware
 
