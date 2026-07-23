@@ -24,6 +24,9 @@
 #include "SX1278.h"
 #include <stdio.h>
 
+#define LORA_TX_MODE 0  // Set to 1 to transmit, 0 to receive
+
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -128,8 +131,13 @@ int main(void)
 //  printf("Chip version: 0x%02X\r\n", version);
 
 
-  ret = SX1278_LoRaEntryRx(&SX1278, 64, 2000);
-  printf("EntryRx ret=%d\r\n", ret);
+	#if LORA_TX_MODE
+	// Entry into TX mode happens per-packet in the loop below,
+	// since payload length varies each time
+	#else
+	ret = SX1278_LoRaEntryRx(&SX1278, 64, 2000);
+	printf("EntryRx ret=%d\r\n", ret);
+	#endif
 
   /* USER CODE END 2 */
 
@@ -137,15 +145,20 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  ret = SX1278_LoRaRxPacket(&SX1278);
-	  if (ret > 0) {
-	      SX1278_read(&SX1278, (uint8_t*) buffer, ret);
-	      printf("Received (%d): %s\r\n", ret, buffer);
-	  }
-	  HAL_Delay(100);
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+	#if LORA_TX_MODE
+		int message_length = sprintf(buffer, "Hello from STM32!! %lu", HAL_GetTick());
+		ret = SX1278_LoRaEntryTx(&SX1278, message_length, 2000);
+		ret = SX1278_LoRaTxPacket(&SX1278, (uint8_t*) buffer, message_length, 2000);
+		printf("%d byte packet sent: %s\r\n", message_length, buffer);
+		HAL_Delay(1000);
+		#else
+		ret = SX1278_LoRaRxPacket(&SX1278);
+		if (ret > 0) {
+			SX1278_read(&SX1278, (uint8_t*) buffer, ret);
+			printf("Received (%d): %s\r\n", ret, buffer);
+		}
+		HAL_Delay(100);
+		#endif
   }
   /* USER CODE END 3 */
 }
