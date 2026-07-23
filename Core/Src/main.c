@@ -117,10 +117,15 @@ int main(void)
 
   SX1278.hw = &SX1278_hw;
 
-  SX1278_init(&SX1278, 433000000, SX1278_POWER_17DBM, SX1278_LORA_SF_7,
+  SX1278_init(&SX1278, 433000000, SX1278_POWER_10DBM, SX1278_LORA_SF_7,
       SX1278_LORA_BW_125KHZ, SX1278_LORA_CR_4_5, SX1278_LORA_CRC_EN, 10);
 
   printf("SX1278_init done\r\n");
+
+  // Uncomment here if you want to verify your wiring
+
+//  uint8_t version = SX1278_SPIRead(&SX1278, REG_LR_VERSION);
+//  printf("Chip version: 0x%02X\r\n", version);
 
 
   ret = SX1278_LoRaEntryRx(&SX1278, 64, 2000);

@@ -155,11 +155,13 @@ extern "C" {
 #define SX1278_POWER_17DBM		1
 #define SX1278_POWER_14DBM		2
 #define SX1278_POWER_11DBM		3
+#define SX1278_POWER_10DBM		4
 
-static const uint8_t SX1278_Power[4] = { 0xFF, //20dbm
+static const uint8_t SX1278_Power[5] = { 0xFF, //20dbm
 		0xFC, //17dbm
 		0xF9, //14dbm
 		0xF6, //11dbm
+		0xF5, //10dbm
 		};
 
 #define SX1278_LORA_SF_6		0
